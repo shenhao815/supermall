@@ -4,15 +4,16 @@ function resolve(dir) {
 }
 
 module.exports = {
+  lintOnSave: false, //禁用eslint
   chainWebpack: (config) => {
     config.resolve.alias
       .set('@', resolve('./src'))
-      .set('components', resolve('@/components'))
-      .set('assets', resolve('@/assets'))
-      .set('common', resolve('@/common'))
-      .set('network', resolve('@/network'))
-      .set('views', resolve('@/views'))
+      .set('components', resolve('./src/components'))
+      .set('assets', resolve('./src/assets'))
+      .set('common', resolve('./src/common'))
+      .set('network', resolve('./src/network'))
+      .set('views', resolve('./src/views'))
     //set第一个参数：设置的别名，第二个参数：设置的路径
-
   }
+
 }
