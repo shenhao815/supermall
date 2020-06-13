@@ -2,13 +2,13 @@ import {localRequest, request} from "./request";
 
 export function getHomeMultidata() {
   return request({
-    url: '/home/multidata'
+    url: '/why/home/multidata'
   })
 }
 
 export function getHomeGoods(type,page) {
   return localRequest({
-    url: 'home/datas',
+    url: '/loc/home/datas',
     params: {
       type,
       page

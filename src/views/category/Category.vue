@@ -1,11 +1,23 @@
 <template>
-  <h2>分类</h2>
 </template>
 
 <script>
-export default {
 
-}
+  export default {
+    name: 'Category',
+    data(){
+      return {
+        scroll: null
+      }
+    },
+    created() {
+    },
+    mounted() {
+
+    },
+    methods: {
+    }
+  }
 </script>
 
 <style>
