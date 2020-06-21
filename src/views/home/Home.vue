@@ -37,12 +37,13 @@
   import GoodsList from "components/content/goods/GoodsList";
   import BackTop from "../../components/content/backTop/BackTop";
 
+  import {imgLoadMixin} from '../../common/mixin'
+
   import {
     getHomeMultidata,
     getHomeGoods
   } from "network/home";
 
-  import {debounce} from "../../common/utils";
 
 
   export default {
@@ -57,6 +58,7 @@
       GoodsList,
       BackTop
     },
+    mixins: [imgLoadMixin],
     data() {
       return {
         isShowBackTop: false,
@@ -88,12 +90,6 @@
     },
     mounted() {
 
-      // 此处this.$refs.scroll.refresh不加()是因为，
-      // 如果加上，则代表传的该函数的返回值，而不是该函数本身
-      const refresh = debounce(this.$refs.scroll.refresh,30)
-      this.$bus.$on('itemImgLoad',() => {
-        refresh()
-      })
     },
     activated() {
       this.$refs.scroll.scrollTo(0,this.saveY,0)
@@ -104,7 +100,6 @@
       this.saveY = this.$refs.scroll.getScrollY()
     },
     methods: {
-
       tabClick(index) {
         switch (index) {
           case 0:
