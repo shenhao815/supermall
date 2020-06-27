@@ -35,9 +35,9 @@
 
   import TabControl from "components/content/tabControl/TabControl";
   import GoodsList from "components/content/goods/GoodsList";
-  import BackTop from "../../components/content/backTop/BackTop";
+  //import BackTop from "../../components/content/backTop/BackTop";
 
-  import {imgLoadMixin} from '../../common/mixin'
+  import {imgLoadMixin,backTopMixin} from '../../common/mixin'
 
   import {
     getHomeMultidata,
@@ -56,12 +56,12 @@
       Scroll,
       TabControl,
       GoodsList,
-      BackTop
+      // BackTop
     },
-    mixins: [imgLoadMixin],
+    mixins: [imgLoadMixin,backTopMixin],
     data() {
       return {
-        isShowBackTop: false,
+        //isShowBackTop: false,
         banners: [],
         recommends: [],
         goods: {
@@ -132,9 +132,9 @@
           this.$refs.scroll.finishPullUp()
         })
       },
-      clickBack(){
+      /*clickBack(){
         this.$refs.scroll.scrollTo(0,0,500)
-      },
+      },*/
       contentScroll(position) {
         // 1.判断BackTop是否显示
         this.isShowBackTop = -position.y > 300

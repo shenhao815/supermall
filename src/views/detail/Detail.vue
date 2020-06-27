@@ -12,6 +12,8 @@
     <detail-param-info ref="param" :paramInfo="paramInfo"/>
     <detail-comment-info ref='comment' :comment-infos="commentInfos" />
   </scroll>
+  <detail-bottom-bar @addToCart="addToCart"/>
+  <back-top @click.native="clickBack" v-show="isShowBackTop"/>
 </div>
 </template>
 
@@ -23,13 +25,20 @@
   import DetailGoodsInfo from "./childComps/DetailGoodsInfo";
   import DetailParamInfo from "./childComps/DetailParamInfo";
   import DetailCommentInfo from "./childComps/DetailCommentInfo";
+  import DetailBottomBar from "./childComps/DetailBottomBar";
 
   import Scroll from 'components/common/scroll/Scroll'
 
   import {getDetail,Goods,Shop,GoodsParam} from 'network/detail'
   import {debounce} from "../../common/utils";
+
+  import {backTopMixin} from "../../common/mixin";
+
+  import { mapActions } from 'vuex'
+
   export default {
     name: "Detail",
+    mixins: [backTopMixin],
     components: {
       DetailParamInfo,
       DetailNavBar,
@@ -38,7 +47,8 @@
       DetailShopInfo,
       Scroll,
       DetailGoodsInfo,
-      DetailCommentInfo
+      DetailCommentInfo,
+      DetailBottomBar
     },
     data(){
       return {
@@ -68,6 +78,9 @@
       },100);
     },
     methods: {
+      ...mapActions({
+        addCart: 'addToCart'
+      }),
       getDetail(){
         getDetail(this.iid).then(res => {
           console.log(res);
@@ -105,6 +118,8 @@
       },
       contentScroll(position) {
         const positionY = -position.y
+        // 1.判断BackTop是否显示
+        this.isShowBackTop = positionY > 300
         let length = this.themeTopYs.length
         for (let i = 0; i < length-1; i++) {
           if ((this.currentTitleIndex !== i) &&(positionY >= this.themeTopYs[i] && positionY < this.themeTopYs[i + 1])) {
@@ -112,7 +127,23 @@
             this.$refs.nav.currentIndex = this.currentTitleIndex
           }
         }
+      },
+      addToCart() {
+        const product = {};
+        product.image = this.topImages[0]
+        product.title = this.goods.title
+        product.desc = this.goods.desc
+        product.price = this.goods.realPrice
+        product.iid = this.iid
+
+        // this.$store.commit('addToCart',product)
+        // this.$store.dispatch('addToCart',product)
+        this.addCart(product).then(res => {
+          console.log(res);
+          this.$toast.show(res,1500)
+        });
       }
+
     }
   }
 </script>
